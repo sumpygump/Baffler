@@ -1,0 +1,5 @@
+name = "Jacki"
+age = 4
+favorite_color = "Yellow"
+sum = add(1 multiple(2 subtract(4 3)))
+animals = "ducks"
