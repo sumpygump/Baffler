@@ -1,0 +1,8 @@
+ifElse(paramA paramB)[
+    if[paramA > paramB][
+        disp("Bueno")
+    ] [
+        disp("malo")
+    ]
+]
+ifElse(-10 -20)
