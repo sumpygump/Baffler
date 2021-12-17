@@ -5,7 +5,7 @@ const exec = util.promisify(require('child_process').exec);
 async function main() {
     const filename = process.argv[2];
     if (!filename) {
-        console.log("\x1b[1m\x1b[31mPlease provide a .small file.\x1b[0m");
+        console.log("\x1b[1m\x1b[31mPlease provide a .baf file.\x1b[0m");
         return;
     }
     const astFilename = filename + ".ast"
