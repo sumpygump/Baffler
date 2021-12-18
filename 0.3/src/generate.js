@@ -1,6 +1,6 @@
 const fs = require("mz/fs").promises;
 
-const runtime = `const std = require("C:/Users/robot/DEV/baffler/0.0.2/src/runtime.js")`
+const runtime = `const std = require("${__dirname}/runtime.js")`
 
 async function main() {
     const filename = process.argv[2];
@@ -8,14 +8,21 @@ async function main() {
         console.log(`Please provide a filename!`);
         return;
     }
+    const jsFilename = (await generateFile(filename));
+    console.log(`\x1b[36m\x1b[1mGenerated File: \x1b[32m${jsFilename}!\x1b[0m`)
+}
+
+/**
+ * Generate JS from AST file
+ */
+async function generateFile(filename) {
     const astCode = (await fs.readFile(filename)).toString();
     const ast = JSON.parse(astCode);
     const jsCode = runtime + "\r\n\r\n" + generate(ast);
     const jsFilename = filename.replace(".baf.ast", ".js");
     (await fs.writeFile(jsFilename, jsCode));
-    console.log(`\x1b[36m\x1b[1mGenerated File: \x1b[32m${jsFilename}!\x1b[0m`)
+    return jsFilename;
 }
-
 
 function generate(node) {
     if (node.type === "program"){
@@ -66,4 +73,8 @@ function generate(node) {
     }
 }
 
-main().catch(err => console.log(err.stack));
+if (require.main === module) {
+    main().catch(err => console.log(err.stack));
+}
+
+module.exports = { generateFile }
